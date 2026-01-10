@@ -293,7 +293,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 Watch the full walkthrough and see DevNotes-AI in action:
 
-**[🎬 Watch Demo Video](https://drive.google.com/file/d/1dtJfPcS9UmK-i_jK_EQFJ_TgMv7N8Ic6/view?usp=drive_link)**
+**[🎬 Watch Demo Video](https://youtu.be/2oQYH_88d4o)**
 
 ---
 

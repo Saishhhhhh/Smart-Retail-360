@@ -118,14 +118,14 @@ const Campaigns = () => {
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50">
       {/* Hero Header Section */}
       <div className="bg-gradient-to-r from-purple-600 via-purple-700 to-pink-700 text-white shadow-xl">
-        <div className="px-6 py-8">
+        <div className="px-4 sm:px-6 py-6 sm:py-8">
           <div className="max-w-7xl mx-auto">
-            <div className="flex items-center justify-between">
-              <div>
-                <h1 className="text-4xl font-bold mb-2">AI Campaign Center</h1>
-                <p className="text-purple-100 text-lg">AI-powered marketing campaigns for overstocked products</p>
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div className="flex-1">
+                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-2">AI Campaign Center</h1>
+                <p className="text-purple-100 text-sm sm:text-base lg:text-lg">AI-powered marketing campaigns for overstocked products</p>
               </div>
-              <div className="hidden md:flex items-center gap-4">
+              <div className="hidden md:flex items-center gap-4 flex-shrink-0">
                 <div className="bg-white/10 backdrop-blur-sm rounded-lg px-4 py-3 border border-white/20">
                   <div className="text-xs text-purple-200">Active Campaigns</div>
                   <div className="text-2xl font-bold">{stats.activeCampaigns}</div>
@@ -140,51 +140,51 @@ const Campaigns = () => {
         </div>
       </div>
 
-      <div className="px-6 py-8 max-w-7xl mx-auto">
+      <div className="px-4 sm:px-6 py-6 sm:py-8 max-w-7xl mx-auto">
         {/* Key Metrics Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <div className="bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl shadow-lg p-6 text-white transform hover:scale-105 transition-transform duration-200">
-            <div className="flex items-center justify-between mb-4">
-              <div className="bg-white/20 rounded-lg p-3">
-                <Sparkles size={28} />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
+          <div className="bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl shadow-lg p-4 sm:p-6 text-white transform hover:scale-105 transition-transform duration-200">
+            <div className="flex items-center justify-between mb-3 sm:mb-4">
+              <div className="bg-white/20 rounded-lg p-2 sm:p-3">
+                <Sparkles size={24} className="sm:w-7 sm:h-7" />
               </div>
-              <span className="text-purple-100 text-sm font-medium">Active Campaigns</span>
+              <span className="text-purple-100 text-xs sm:text-sm font-medium">Active Campaigns</span>
             </div>
-            <div className="text-4xl font-bold mb-1">{stats.activeCampaigns}</div>
-            <div className="text-purple-100 text-sm">Generated & running</div>
+            <div className="text-3xl sm:text-4xl font-bold mb-1">{stats.activeCampaigns}</div>
+            <div className="text-purple-100 text-xs sm:text-sm">Generated & running</div>
           </div>
 
-          <div className="bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-xl shadow-lg p-6 text-white transform hover:scale-105 transition-transform duration-200">
-            <div className="flex items-center justify-between mb-4">
-              <div className="bg-white/20 rounded-lg p-3">
-                <Users size={28} />
+          <div className="bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-xl shadow-lg p-4 sm:p-6 text-white transform hover:scale-105 transition-transform duration-200">
+            <div className="flex items-center justify-between mb-3 sm:mb-4">
+              <div className="bg-white/20 rounded-lg p-2 sm:p-3">
+                <Users size={24} className="sm:w-7 sm:h-7" />
               </div>
-              <span className="text-indigo-100 text-sm font-medium">VIP Campaigns</span>
+              <span className="text-indigo-100 text-xs sm:text-sm font-medium">VIP Campaigns</span>
             </div>
-            <div className="text-4xl font-bold mb-1">{stats.byCluster['VIP Customers'] || 0}</div>
-            <div className="text-indigo-100 text-sm">Premium segment</div>
+            <div className="text-3xl sm:text-4xl font-bold mb-1">{stats.byCluster['VIP Customers'] || 0}</div>
+            <div className="text-indigo-100 text-xs sm:text-sm">Premium segment</div>
           </div>
 
-          <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl shadow-lg p-6 text-white transform hover:scale-105 transition-transform duration-200">
-            <div className="flex items-center justify-between mb-4">
-              <div className="bg-white/20 rounded-lg p-3">
-                <Mail size={28} />
+          <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl shadow-lg p-4 sm:p-6 text-white transform hover:scale-105 transition-transform duration-200">
+            <div className="flex items-center justify-between mb-3 sm:mb-4">
+              <div className="bg-white/20 rounded-lg p-2 sm:p-3">
+                <Mail size={24} className="sm:w-7 sm:h-7" />
               </div>
-              <span className="text-blue-100 text-sm font-medium">Email Campaigns</span>
+              <span className="text-blue-100 text-xs sm:text-sm font-medium">Email Campaigns</span>
             </div>
-            <div className="text-4xl font-bold mb-1">{stats.activeCampaigns}</div>
-            <div className="text-blue-100 text-sm">Ready to send</div>
+            <div className="text-3xl sm:text-4xl font-bold mb-1">{stats.activeCampaigns}</div>
+            <div className="text-blue-100 text-xs sm:text-sm">Ready to send</div>
           </div>
 
-          <div className="bg-gradient-to-br from-green-500 to-green-600 rounded-xl shadow-lg p-6 text-white transform hover:scale-105 transition-transform duration-200">
-            <div className="flex items-center justify-between mb-4">
-              <div className="bg-white/20 rounded-lg p-3">
-                <MessageCircle size={28} />
+          <div className="bg-gradient-to-br from-green-500 to-green-600 rounded-xl shadow-lg p-4 sm:p-6 text-white transform hover:scale-105 transition-transform duration-200">
+            <div className="flex items-center justify-between mb-3 sm:mb-4">
+              <div className="bg-white/20 rounded-lg p-2 sm:p-3">
+                <MessageCircle size={24} className="sm:w-7 sm:h-7" />
               </div>
-              <span className="text-green-100 text-sm font-medium">WhatsApp Messages</span>
+              <span className="text-green-100 text-xs sm:text-sm font-medium">WhatsApp Messages</span>
             </div>
-            <div className="text-4xl font-bold mb-1">{stats.activeCampaigns}</div>
-            <div className="text-green-100 text-sm">Ready to send</div>
+            <div className="text-3xl sm:text-4xl font-bold mb-1">{stats.activeCampaigns}</div>
+            <div className="text-green-100 text-xs sm:text-sm">Ready to send</div>
           </div>
         </div>
 
@@ -198,12 +198,12 @@ const Campaigns = () => {
               Filter by Customer Cluster
             </label>
           </div>
-          <div className="flex flex-wrap gap-3">
+          <div className="flex flex-wrap gap-2 sm:gap-3">
             {clusters.map((cluster) => (
               <button
                 key={cluster}
                 onClick={() => setClusterFilter(cluster)}
-                className={`px-5 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 transform hover:scale-105 ${
+                className={`px-3 sm:px-5 py-2 sm:py-2.5 rounded-lg text-xs sm:text-sm font-semibold transition-all duration-200 transform hover:scale-105 ${
                   clusterFilter === cluster
                     ? 'bg-gradient-to-r from-purple-600 to-purple-700 text-white shadow-lg'
                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
@@ -229,19 +229,19 @@ const Campaigns = () => {
           <div className="space-y-8">
             {/* Campaign Plan Table - Collapsible */}
             <Card className="shadow-xl hover:shadow-2xl transition-shadow duration-200">
-              <div className="flex items-center justify-between mb-6">
-                <div className="flex items-center gap-3">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+                <div className="flex flex-wrap items-center gap-2 sm:gap-3">
                   <div className="bg-purple-100 rounded-lg p-2">
-                    <List className="text-purple-600" size={24} />
+                    <List className="text-purple-600" size={20} className="sm:w-6 sm:h-6" />
                   </div>
-                  <h3 className="text-xl font-bold text-gray-800">Campaign Plan</h3>
-                  <span className="ml-4 px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-medium">
+                  <h3 className="text-lg sm:text-xl font-bold text-gray-800">Campaign Plan</h3>
+                  <span className="px-2 sm:px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-xs sm:text-sm font-medium">
                     {filteredCampaigns.length} {filteredCampaigns.length === 1 ? 'campaign' : 'campaigns'}
                   </span>
                 </div>
                 <button
                   onClick={() => setTableCollapsed(!tableCollapsed)}
-                  className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+                  className="flex items-center gap-2 px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors w-full sm:w-auto justify-center"
                 >
                   {tableCollapsed ? (
                     <>
@@ -258,26 +258,26 @@ const Campaigns = () => {
               </div>
               
               {!tableCollapsed && (
-                <div className="overflow-x-auto rounded-lg border border-gray-200">
+                <div className="overflow-x-auto rounded-lg border border-gray-200 -mx-4 sm:mx-0">
                   <table className="min-w-full divide-y divide-gray-200 bg-white">
                     <thead className="bg-gradient-to-r from-gray-50 to-gray-100">
                       <tr>
-                        <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
+                        <th className="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
                           Stock Code
                         </th>
-                        <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
+                        <th className="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
                           Product Name
                         </th>
-                        <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
+                        <th className="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider hidden md:table-cell">
                           Objective
                         </th>
-                        <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
+                        <th className="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider hidden lg:table-cell">
                           Cluster
                         </th>
-                        <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
+                        <th className="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
                           Discount
                         </th>
-                        <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
+                        <th className="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
                           Action
                         </th>
                       </tr>
@@ -295,30 +295,30 @@ const Campaigns = () => {
                             key={index} 
                             className="hover:bg-gradient-to-r hover:from-purple-50 hover:to-pink-50 transition-colors duration-150"
                           >
-                            <td className="px-6 py-4 whitespace-nowrap">
-                              <span className="text-sm font-semibold text-gray-900">{row.StockCode}</span>
+                            <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap">
+                              <span className="text-xs sm:text-sm font-semibold text-gray-900">{row.StockCode}</span>
                             </td>
-                            <td className="px-6 py-4">
-                              <span className="text-sm text-gray-700">{productName}</span>
+                            <td className="px-3 sm:px-6 py-3 sm:py-4">
+                              <span className="text-xs sm:text-sm text-gray-700 line-clamp-2">{productName}</span>
                             </td>
-                            <td className="px-6 py-4">
-                              <span className="text-sm text-gray-700">{row.Objective}</span>
+                            <td className="px-3 sm:px-6 py-3 sm:py-4 hidden md:table-cell">
+                              <span className="text-xs sm:text-sm text-gray-700">{row.Objective}</span>
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap">
-                              <span className="text-sm text-gray-600">{targetCluster}</span>
+                            <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap hidden lg:table-cell">
+                              <span className="text-xs sm:text-sm text-gray-600">{targetCluster}</span>
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap">
-                              <span className="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm font-medium">
+                            <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap">
+                              <span className="px-2 sm:px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs sm:text-sm font-medium">
                                 {row.Discount || row.Discount_Percent}%
                               </span>
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap">
+                            <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap">
                               {!generatedCampaign ? (
                                 <Button
                                   onClick={() => handleGenerateCampaign(row)}
                                   disabled={isGenerating}
                                   variant="primary"
-                                  className="text-xs px-4 py-2"
+                                  className="text-xs px-2 sm:px-4 py-1.5 sm:py-2"
                                 >
                                   {isGenerating ? (
                                     <>
@@ -359,7 +359,7 @@ const Campaigns = () => {
                     {activeCampaigns} {activeCampaigns === 1 ? 'campaign' : 'campaigns'}
                   </span>
                 </div>
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
                   {filteredCampaigns
                     .filter(row => {
                       const targetCluster = row.Target_Cluster || row.TargetCluster || row.Cluster || 'Regular';

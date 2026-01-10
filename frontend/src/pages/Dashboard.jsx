@@ -116,14 +116,14 @@ const Dashboard = () => {
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50">
       {/* Hero Header Section */}
       <div className="bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-700 text-white shadow-xl">
-        <div className="px-6 py-8">
+        <div className="px-4 sm:px-6 py-6 sm:py-8">
           <div className="max-w-7xl mx-auto">
-            <div className="flex items-center justify-between">
-              <div>
-                <h1 className="text-4xl font-bold mb-2">Retail Manager Dashboard</h1>
-                <p className="text-blue-100 text-lg">Real-time inventory insights & AI-powered campaign management</p>
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div className="flex-1">
+                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-2">Retail Manager Dashboard</h1>
+                <p className="text-blue-100 text-sm sm:text-base lg:text-lg">Real-time inventory insights & AI-powered campaign management</p>
               </div>
-              <div className="hidden md:flex items-center gap-4">
+              <div className="hidden md:flex items-center gap-4 flex-shrink-0">
                 <div className="bg-white/10 backdrop-blur-sm rounded-lg px-4 py-3 border border-white/20">
                   <div className="text-xs text-blue-200">Total Products</div>
                   <div className="text-2xl font-bold">{stats.totalProducts.toLocaleString()}</div>
@@ -138,58 +138,58 @@ const Dashboard = () => {
         </div>
       </div>
 
-      <div className="px-6 py-8 max-w-7xl mx-auto">
+      <div className="px-4 sm:px-6 py-6 sm:py-8 max-w-7xl mx-auto">
         {/* Key Metrics Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl shadow-lg p-6 text-white transform hover:scale-105 transition-transform duration-200">
-            <div className="flex items-center justify-between mb-4">
-              <div className="bg-white/20 rounded-lg p-3">
-                <Package size={28} />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
+          <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl shadow-lg p-4 sm:p-6 text-white transform hover:scale-105 transition-transform duration-200">
+            <div className="flex items-center justify-between mb-3 sm:mb-4">
+              <div className="bg-white/20 rounded-lg p-2 sm:p-3">
+                <Package size={24} className="sm:w-7 sm:h-7" />
               </div>
-              <span className="text-blue-100 text-sm font-medium">Total Products</span>
+              <span className="text-blue-100 text-xs sm:text-sm font-medium">Total Products</span>
             </div>
-            <div className="text-4xl font-bold mb-1">{stats.totalProducts.toLocaleString()}</div>
-            <div className="text-blue-100 text-sm">Across all categories</div>
+            <div className="text-3xl sm:text-4xl font-bold mb-1">{stats.totalProducts.toLocaleString()}</div>
+            <div className="text-blue-100 text-xs sm:text-sm">Across all categories</div>
           </div>
 
-          <div className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl shadow-lg p-6 text-white transform hover:scale-105 transition-transform duration-200">
-            <div className="flex items-center justify-between mb-4">
-              <div className="bg-white/20 rounded-lg p-3">
-                <AlertCircle size={28} />
+          <div className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl shadow-lg p-4 sm:p-6 text-white transform hover:scale-105 transition-transform duration-200">
+            <div className="flex items-center justify-between mb-3 sm:mb-4">
+              <div className="bg-white/20 rounded-lg p-2 sm:p-3">
+                <AlertCircle size={24} className="sm:w-7 sm:h-7" />
               </div>
-              <span className="text-orange-100 text-sm font-medium">Overstocked</span>
+              <span className="text-orange-100 text-xs sm:text-sm font-medium">Overstocked</span>
             </div>
-            <div className="text-4xl font-bold mb-1">{stats.overstocked}</div>
-            <div className="text-orange-100 text-sm">
+            <div className="text-3xl sm:text-4xl font-bold mb-1">{stats.overstocked}</div>
+            <div className="text-orange-100 text-xs sm:text-sm">
               {stats.totalProducts > 0 ? ((stats.overstocked / stats.totalProducts) * 100).toFixed(1) : 0}% of inventory
             </div>
           </div>
 
-          <div className="bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl shadow-lg p-6 text-white transform hover:scale-105 transition-transform duration-200">
-            <div className="flex items-center justify-between mb-4">
-              <div className="bg-white/20 rounded-lg p-3">
-                <Sparkles size={28} />
+          <div className="bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl shadow-lg p-4 sm:p-6 text-white transform hover:scale-105 transition-transform duration-200">
+            <div className="flex items-center justify-between mb-3 sm:mb-4">
+              <div className="bg-white/20 rounded-lg p-2 sm:p-3">
+                <Sparkles size={24} className="sm:w-7 sm:h-7" />
               </div>
-              <span className="text-purple-100 text-sm font-medium">Active Campaigns</span>
+              <span className="text-purple-100 text-xs sm:text-sm font-medium">Active Campaigns</span>
             </div>
-            <div className="text-4xl font-bold mb-1">{stats.campaignsActive}</div>
-            <div className="text-purple-100 text-sm">AI-generated & running</div>
+            <div className="text-3xl sm:text-4xl font-bold mb-1">{stats.campaignsActive}</div>
+            <div className="text-purple-100 text-xs sm:text-sm">AI-generated & running</div>
           </div>
 
-          <div className="bg-gradient-to-br from-red-500 to-red-600 rounded-xl shadow-lg p-6 text-white transform hover:scale-105 transition-transform duration-200">
-            <div className="flex items-center justify-between mb-4">
-              <div className="bg-white/20 rounded-lg p-3">
-                <TrendingDown size={28} />
+          <div className="bg-gradient-to-br from-red-500 to-red-600 rounded-xl shadow-lg p-4 sm:p-6 text-white transform hover:scale-105 transition-transform duration-200">
+            <div className="flex items-center justify-between mb-3 sm:mb-4">
+              <div className="bg-white/20 rounded-lg p-2 sm:p-3">
+                <TrendingDown size={24} className="sm:w-7 sm:h-7" />
               </div>
-              <span className="text-red-100 text-sm font-medium">Understocked</span>
+              <span className="text-red-100 text-xs sm:text-sm font-medium">Understocked</span>
             </div>
-            <div className="text-4xl font-bold mb-1">{stats.understocked}</div>
-            <div className="text-red-100 text-sm">Requires restocking</div>
+            <div className="text-3xl sm:text-4xl font-bold mb-1">{stats.understocked}</div>
+            <div className="text-red-100 text-xs sm:text-sm">Requires restocking</div>
           </div>
         </div>
 
         {/* Analytics Charts Row */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-8">
           {/* Inventory Status Distribution */}
           <Card className="shadow-lg hover:shadow-xl transition-shadow duration-200">
             <div className="flex items-center gap-3 mb-6">
@@ -198,32 +198,34 @@ const Dashboard = () => {
               </div>
               <h3 className="text-xl font-bold text-gray-800">Inventory Status Distribution</h3>
             </div>
-            <ResponsiveContainer width="100%" height={320}>
-              <PieChart>
-                <Pie
-                  data={inventoryDistribution}
-                  cx="50%"
-                  cy="50%"
-                  labelLine={false}
-                  label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
-                  outerRadius={100}
-                  fill="#8884d8"
-                  dataKey="value"
-                >
-                  {inventoryDistribution.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} />
-                  ))}
-                </Pie>
-                <Tooltip 
-                  contentStyle={{ 
-                    backgroundColor: '#fff', 
-                    border: '1px solid #e5e7eb', 
-                    borderRadius: '8px',
-                    boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
-                  }}
-                />
-              </PieChart>
-            </ResponsiveContainer>
+            <div className="h-[280px] sm:h-[320px]">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={inventoryDistribution}
+                    cx="50%"
+                    cy="50%"
+                    labelLine={false}
+                    label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                    outerRadius={100}
+                    fill="#8884d8"
+                    dataKey="value"
+                  >
+                    {inventoryDistribution.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={entry.color} />
+                    ))}
+                  </Pie>
+                  <Tooltip 
+                    contentStyle={{ 
+                      backgroundColor: '#fff', 
+                      border: '1px solid #e5e7eb', 
+                      borderRadius: '8px',
+                      boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
+                    }}
+                  />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
             <div className="mt-4 flex justify-center gap-6">
               {inventoryDistribution.map((item, index) => (
                 <div key={index} className="flex items-center gap-2">
@@ -243,28 +245,30 @@ const Dashboard = () => {
                 </div>
                 <h3 className="text-xl font-bold text-gray-800">Campaigns by Customer Cluster</h3>
               </div>
-              <ResponsiveContainer width="100%" height={320}>
-                <BarChart data={campaignDistribution}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-                  <XAxis 
-                    dataKey="name" 
-                    angle={-45} 
-                    textAnchor="end" 
-                    height={100}
-                    tick={{ fill: '#6b7280', fontSize: 12 }}
-                  />
-                  <YAxis tick={{ fill: '#6b7280', fontSize: 12 }} />
-                  <Tooltip 
-                    contentStyle={{ 
-                      backgroundColor: '#fff', 
-                      border: '1px solid #e5e7eb', 
-                      borderRadius: '8px',
-                      boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
-                    }}
-                  />
-                  <Bar dataKey="value" fill="#8b5cf6" radius={[8, 8, 0, 0]} />
-                </BarChart>
-              </ResponsiveContainer>
+              <div className="h-[280px] sm:h-[320px]">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={campaignDistribution}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                    <XAxis 
+                      dataKey="name" 
+                      angle={-45} 
+                      textAnchor="end" 
+                      height={100}
+                      tick={{ fill: '#6b7280', fontSize: 12 }}
+                    />
+                    <YAxis tick={{ fill: '#6b7280', fontSize: 12 }} />
+                    <Tooltip 
+                      contentStyle={{ 
+                        backgroundColor: '#fff', 
+                        border: '1px solid #e5e7eb', 
+                        borderRadius: '8px',
+                        boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
+                      }}
+                    />
+                    <Bar dataKey="value" fill="#8b5cf6" radius={[8, 8, 0, 0]} />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
             </Card>
           ) : (
             <Card className="shadow-lg hover:shadow-xl transition-shadow duration-200">
@@ -288,28 +292,30 @@ const Dashboard = () => {
               </div>
               <h3 className="text-xl font-bold text-gray-800">Campaigns by Objective</h3>
             </div>
-            <ResponsiveContainer width="100%" height={350}>
-              <BarChart data={objectiveData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-                <XAxis 
-                  dataKey="name" 
-                  angle={-45} 
-                  textAnchor="end" 
-                  height={120}
-                  tick={{ fill: '#6b7280', fontSize: 12 }}
-                />
-                <YAxis tick={{ fill: '#6b7280', fontSize: 12 }} />
-                <Tooltip 
-                  contentStyle={{ 
-                    backgroundColor: '#fff', 
-                    border: '1px solid #e5e7eb', 
-                    borderRadius: '8px',
-                    boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
-                  }}
-                />
-                <Bar dataKey="value" fill="#6366f1" radius={[8, 8, 0, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
+            <div className="h-[300px] sm:h-[350px]">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={objectiveData}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                  <XAxis 
+                    dataKey="name" 
+                    angle={-45} 
+                    textAnchor="end" 
+                    height={120}
+                    tick={{ fill: '#6b7280', fontSize: 12 }}
+                  />
+                  <YAxis tick={{ fill: '#6b7280', fontSize: 12 }} />
+                  <Tooltip 
+                    contentStyle={{ 
+                      backgroundColor: '#fff', 
+                      border: '1px solid #e5e7eb', 
+                      borderRadius: '8px',
+                      boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
+                    }}
+                  />
+                  <Bar dataKey="value" fill="#6366f1" radius={[8, 8, 0, 0]} />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
           </Card>
         )}
 
@@ -322,34 +328,36 @@ const Dashboard = () => {
               </div>
               <h3 className="text-xl font-bold text-gray-800">Top 10 Overstocked Products</h3>
             </div>
-            <ResponsiveContainer width="100%" height={450}>
-              <BarChart data={topOverstocked} layout="vertical">
-                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-                <XAxis type="number" tick={{ fill: '#6b7280', fontSize: 12 }} />
-                <YAxis 
-                  dataKey="name" 
-                  type="category" 
-                  width={180}
-                  tick={{ fill: '#6b7280', fontSize: 11 }}
-                />
-                <Tooltip 
-                  contentStyle={{ 
-                    backgroundColor: '#fff', 
-                    border: '1px solid #e5e7eb', 
-                    borderRadius: '8px',
-                    boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
-                  }}
-                />
-                <Legend />
-                <Bar dataKey="stock" fill="#f97316" name="Current Stock" radius={[0, 8, 8, 0]} />
-                <Bar dataKey="demand" fill="#3b82f6" name="Predicted Demand (7d)" radius={[0, 8, 8, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
+            <div className="h-[400px] sm:h-[450px]">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={topOverstocked} layout="vertical">
+                  <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                  <XAxis type="number" tick={{ fill: '#6b7280', fontSize: 12 }} />
+                  <YAxis 
+                    dataKey="name" 
+                    type="category" 
+                    width={180}
+                    tick={{ fill: '#6b7280', fontSize: 11 }}
+                  />
+                  <Tooltip 
+                    contentStyle={{ 
+                      backgroundColor: '#fff', 
+                      border: '1px solid #e5e7eb', 
+                      borderRadius: '8px',
+                      boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
+                    }}
+                  />
+                  <Legend />
+                  <Bar dataKey="stock" fill="#f97316" name="Current Stock" radius={[0, 8, 8, 0]} />
+                  <Bar dataKey="demand" fill="#3b82f6" name="Predicted Demand (7d)" radius={[0, 8, 8, 0]} />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
           </Card>
         )}
 
         {/* Summary Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           <Card className="bg-gradient-to-br from-green-50 to-green-100 border-green-200 shadow-md hover:shadow-lg transition-shadow duration-200">
             <div className="flex items-center justify-between">
               <div>

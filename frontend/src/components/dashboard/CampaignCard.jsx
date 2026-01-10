@@ -16,19 +16,19 @@ const CampaignCard = ({ campaign }) => {
   const clusterName = campaign.targetCluster || 'Regular';
 
   return (
-    <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-6 hover:shadow-xl transition-all duration-200 transform hover:-translate-y-1">
+    <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-4 sm:p-6 hover:shadow-xl transition-all duration-200 transform hover:-translate-y-1">
       <div className="flex items-start justify-between mb-4">
-        <div className="flex-1">
-          <h3 className="text-xl font-bold text-gray-800 mb-3">
+        <div className="flex-1 min-w-0">
+          <h3 className="text-lg sm:text-xl font-bold text-gray-800 mb-3 line-clamp-2">
             {campaign.productName}
           </h3>
           <div className="flex flex-wrap gap-2 mb-3">
-            <span className={`inline-flex items-center px-4 py-1.5 rounded-full text-xs font-semibold shadow-sm ${clusterColors[clusterName] || clusterColors.Regular}`}>
-              <Users size={14} className="mr-1.5" />
-              {clusterName}
+            <span className={`inline-flex items-center px-3 sm:px-4 py-1 sm:py-1.5 rounded-full text-xs font-semibold shadow-sm ${clusterColors[clusterName] || clusterColors.Regular}`}>
+              <Users size={12} className="sm:w-3.5 sm:h-3.5 mr-1 sm:mr-1.5" />
+              <span className="truncate max-w-[120px] sm:max-w-none">{clusterName}</span>
             </span>
-            <span className="inline-flex items-center px-4 py-1.5 rounded-full text-xs font-semibold bg-gradient-to-r from-yellow-400 to-yellow-500 text-yellow-900 shadow-sm">
-              <Tag size={14} className="mr-1.5" />
+            <span className="inline-flex items-center px-3 sm:px-4 py-1 sm:py-1.5 rounded-full text-xs font-semibold bg-gradient-to-r from-yellow-400 to-yellow-500 text-yellow-900 shadow-sm">
+              <Tag size={12} className="sm:w-3.5 sm:h-3.5 mr-1 sm:mr-1.5" />
               {campaign.discount}% OFF
             </span>
           </div>

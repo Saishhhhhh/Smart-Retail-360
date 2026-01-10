@@ -55,10 +55,10 @@ const InventoryTable = ({ inventory, onFilterChange, selectedFilter }) => {
 
   return (
     <div className="w-full">
-      <div className="mb-6 flex flex-wrap gap-3">
+      <div className="mb-4 sm:mb-6 flex flex-wrap gap-2 sm:gap-3">
         <button
           onClick={() => onFilterChange('ALL')}
-          className={`px-5 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 transform hover:scale-105 ${
+          className={`px-3 sm:px-5 py-2 sm:py-2.5 rounded-lg text-xs sm:text-sm font-semibold transition-all duration-200 transform hover:scale-105 ${
             selectedFilter === 'ALL'
               ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg'
               : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
@@ -68,7 +68,7 @@ const InventoryTable = ({ inventory, onFilterChange, selectedFilter }) => {
         </button>
         <button
           onClick={() => onFilterChange('OVERSTOCKED')}
-          className={`px-5 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 transform hover:scale-105 ${
+          className={`px-3 sm:px-5 py-2 sm:py-2.5 rounded-lg text-xs sm:text-sm font-semibold transition-all duration-200 transform hover:scale-105 ${
             selectedFilter === 'OVERSTOCKED'
               ? 'bg-gradient-to-r from-orange-600 to-orange-700 text-white shadow-lg'
               : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
@@ -78,7 +78,7 @@ const InventoryTable = ({ inventory, onFilterChange, selectedFilter }) => {
         </button>
         <button
           onClick={() => onFilterChange('UNDERSTOCKED')}
-          className={`px-5 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 transform hover:scale-105 ${
+          className={`px-3 sm:px-5 py-2 sm:py-2.5 rounded-lg text-xs sm:text-sm font-semibold transition-all duration-200 transform hover:scale-105 ${
             selectedFilter === 'UNDERSTOCKED'
               ? 'bg-gradient-to-r from-red-600 to-red-700 text-white shadow-lg'
               : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
@@ -88,7 +88,7 @@ const InventoryTable = ({ inventory, onFilterChange, selectedFilter }) => {
         </button>
         <button
           onClick={() => onFilterChange('HEALTHY')}
-          className={`px-5 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 transform hover:scale-105 ${
+          className={`px-3 sm:px-5 py-2 sm:py-2.5 rounded-lg text-xs sm:text-sm font-semibold transition-all duration-200 transform hover:scale-105 ${
             selectedFilter === 'HEALTHY'
               ? 'bg-gradient-to-r from-green-600 to-green-700 text-white shadow-lg'
               : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
@@ -98,27 +98,28 @@ const InventoryTable = ({ inventory, onFilterChange, selectedFilter }) => {
         </button>
       </div>
 
-      <div className="overflow-x-auto rounded-lg border border-gray-200 shadow-sm">
+      <div className="overflow-x-auto rounded-lg border border-gray-200 shadow-sm -mx-4 sm:mx-0">
         <table className="min-w-full divide-y divide-gray-200 bg-white">
           <thead className="bg-gradient-to-r from-gray-50 to-gray-100">
             <tr>
-              <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
+              <th className="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
                 Stock Code
               </th>
-              <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
+              <th className="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
                 Product Name
               </th>
               <th 
-                className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider cursor-pointer hover:bg-gray-200 transition-colors"
+                className="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider cursor-pointer hover:bg-gray-200 transition-colors"
                 onClick={() => handleSort('predicted_demand')}
               >
                 <div className="flex items-center">
-                  Predicted Demand (7d)
+                  <span className="hidden sm:inline">Predicted Demand (7d)</span>
+                  <span className="sm:hidden">Demand (7d)</span>
                   {getSortIcon('predicted_demand')}
                 </div>
               </th>
               <th 
-                className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider cursor-pointer hover:bg-gray-200 transition-colors"
+                className="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider cursor-pointer hover:bg-gray-200 transition-colors"
                 onClick={() => handleSort('current_stock')}
               >
                 <div className="flex items-center">
@@ -126,7 +127,7 @@ const InventoryTable = ({ inventory, onFilterChange, selectedFilter }) => {
                   {getSortIcon('current_stock')}
                 </div>
               </th>
-              <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
+              <th className="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
                 Status
               </th>
             </tr>
@@ -155,19 +156,19 @@ const InventoryTable = ({ inventory, onFilterChange, selectedFilter }) => {
                     key={stockCode || index} 
                     className="hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 transition-colors duration-150"
                   >
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <span className="text-sm font-semibold text-gray-900">{stockCode}</span>
+                    <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap">
+                      <span className="text-xs sm:text-sm font-semibold text-gray-900">{stockCode}</span>
                     </td>
-                    <td className="px-6 py-4">
-                      <span className="text-sm text-gray-700">{productName}</span>
+                    <td className="px-3 sm:px-6 py-3 sm:py-4">
+                      <span className="text-xs sm:text-sm text-gray-700 line-clamp-2">{productName}</span>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <span className="text-sm font-medium text-gray-600">{roundDemand(predictedDemand)}</span>
+                    <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap">
+                      <span className="text-xs sm:text-sm font-medium text-gray-600">{roundDemand(predictedDemand)}</span>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <span className="text-sm font-medium text-gray-600">{currentStock}</span>
+                    <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap">
+                      <span className="text-xs sm:text-sm font-medium text-gray-600">{currentStock}</span>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap">
                       <StatusBadge status={status} />
                     </td>
                   </tr>
