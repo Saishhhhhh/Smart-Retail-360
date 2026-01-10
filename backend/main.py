@@ -12,14 +12,24 @@ from services.strategy_service import get_campaign_plan
 from services.genai_service import generate_campaign
 from services.campaign_storage import get_all_generated_campaigns
 from fastapi.middleware.cors import CORSMiddleware
+from dotenv import load_dotenv
 
+load_dotenv()
 
+app = FastAPI(title="SmartRetail 360 API", version="1.0.0")
 
-app = FastAPI(title="SmartRetail 360 API")
+# CORS Configuration - Get from environment or use defaults
+cors_origins = os.getenv(
+    "CORS_ORIGINS",
+    "http://localhost:5173,http://localhost:3000,http://localhost:5174"
+).split(",")
+
+# Remove whitespace from origins
+cors_origins = [origin.strip() for origin in cors_origins]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # In production, replace with your React URL
+    allow_origins=cors_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -27,7 +37,17 @@ app.add_middleware(
 
 @app.get("/")
 def root():
-    return {"status": "SmartRetail 360 running"}
+    return {
+        "status": "SmartRetail 360 API running",
+        "version": "1.0.0",
+        "endpoints": {
+            "inventory": "/inventory",
+            "demand": "/demand",
+            "campaign_plan": "/campaign-plan",
+            "generate_campaign": "/generate-campaign",
+            "generated_campaigns": "/generated-campaigns"
+        }
+    }
 
 
 @app.get("/inventory")
@@ -51,5 +71,5 @@ def gen_campaign(payload: dict):
 
 
 @app.get("/generated-campaigns")
-def get_generated_campaigns():
+def get_generated_campaigns_endpoint():
     return get_all_generated_campaigns()
