@@ -2,9 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { getCampaignPlan, generateCampaign, getGeneratedCampaigns } from '../services/campaignService';
 import CampaignCard from '../components/dashboard/CampaignCard';
 import Card from '../components/common/Card';
-import KPI from '../components/common/KPI';
 import Button from '../components/common/Button';
-import { Sparkles, Users, Mail, MessageCircle, Loader, ChevronDown, ChevronUp } from 'lucide-react';
+import { Sparkles, Users, Mail, MessageCircle, Loader, ChevronDown, ChevronUp, Zap, Target, List } from 'lucide-react';
 
 const STORAGE_KEY = 'smartretail_generated_campaigns';
 
@@ -36,22 +35,14 @@ const Campaigns = () => {
 
   const loadGeneratedCampaigns = async () => {
     try {
-      // Try to load from backend first
       const backendCampaigns = await getGeneratedCampaigns();
-      
-      // Also load from localStorage as backup
       const localCampaigns = localStorage.getItem(STORAGE_KEY);
       const parsedLocal = localCampaigns ? JSON.parse(localCampaigns) : {};
-      
-      // Merge: backend takes precedence, then localStorage
       const merged = { ...parsedLocal, ...backendCampaigns };
       setGeneratedCampaigns(merged);
-      
-      // Save merged to localStorage
       localStorage.setItem(STORAGE_KEY, JSON.stringify(merged));
     } catch (error) {
       console.error('Error loading generated campaigns:', error);
-      // Fallback to localStorage only
       const localCampaigns = localStorage.getItem(STORAGE_KEY);
       if (localCampaigns) {
         setGeneratedCampaigns(JSON.parse(localCampaigns));
@@ -83,8 +74,6 @@ const Campaigns = () => {
 
       const response = await generateCampaign(payload);
       const campaignData = response.data || response;
-      
-      // Save to state and localStorage
       saveGeneratedCampaign(campaignId, campaignData);
     } catch (error) {
       console.error('Error generating campaign:', error);
@@ -94,7 +83,6 @@ const Campaigns = () => {
     }
   };
 
-  // Filter campaigns by cluster
   const filteredCampaigns = clusterFilter === 'ALL' 
     ? campaignPlan 
     : campaignPlan.filter(campaign => {
@@ -103,8 +91,6 @@ const Campaigns = () => {
       });
 
   const clusters = ['ALL', 'VIP Customers', 'Regular', 'At-Risk Customers', 'New Customers', 'Lost'];
-  
-  // Count only generated campaigns
   const activeCampaigns = Object.keys(generatedCampaigns).length;
   
   const stats = {
@@ -117,216 +103,297 @@ const Campaigns = () => {
     }, {})
   };
 
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading campaign plan...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="p-6">
-      <div className="mb-6">
-        <h2 className="text-2xl font-bold text-gray-800 mb-2">AI Campaign Center</h2>
-        <p className="text-gray-600">AI-recommended marketing campaigns for overstocked products</p>
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50">
+      {/* Hero Header Section */}
+      <div className="bg-gradient-to-r from-purple-600 via-purple-700 to-pink-700 text-white shadow-xl">
+        <div className="px-6 py-8">
+          <div className="max-w-7xl mx-auto">
+            <div className="flex items-center justify-between">
+              <div>
+                <h1 className="text-4xl font-bold mb-2">AI Campaign Center</h1>
+                <p className="text-purple-100 text-lg">AI-powered marketing campaigns for overstocked products</p>
+              </div>
+              <div className="hidden md:flex items-center gap-4">
+                <div className="bg-white/10 backdrop-blur-sm rounded-lg px-4 py-3 border border-white/20">
+                  <div className="text-xs text-purple-200">Active Campaigns</div>
+                  <div className="text-2xl font-bold">{stats.activeCampaigns}</div>
+                </div>
+                <div className="bg-white/10 backdrop-blur-sm rounded-lg px-4 py-3 border border-white/20">
+                  <div className="text-xs text-purple-200">Total Plans</div>
+                  <div className="text-2xl font-bold">{stats.total}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div className="mb-6 grid grid-cols-1 md:grid-cols-4 gap-4">
-        <KPI
-          title="Active Campaigns"
-          value={stats.activeCampaigns}
-          icon={Sparkles}
-        />
-        <KPI
-          title="VIP Campaigns"
-          value={stats.byCluster['VIP Customers'] || 0}
-          icon={Users}
-        />
-        <KPI
-          title="Email Campaigns"
-          value={stats.activeCampaigns}
-          icon={Mail}
-        />
-        <KPI
-          title="WhatsApp Messages"
-          value={stats.activeCampaigns}
-          icon={MessageCircle}
-        />
-      </div>
+      <div className="px-6 py-8 max-w-7xl mx-auto">
+        {/* Key Metrics Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <div className="bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl shadow-lg p-6 text-white transform hover:scale-105 transition-transform duration-200">
+            <div className="flex items-center justify-between mb-4">
+              <div className="bg-white/20 rounded-lg p-3">
+                <Sparkles size={28} />
+              </div>
+              <span className="text-purple-100 text-sm font-medium">Active Campaigns</span>
+            </div>
+            <div className="text-4xl font-bold mb-1">{stats.activeCampaigns}</div>
+            <div className="text-purple-100 text-sm">Generated & running</div>
+          </div>
 
-      <Card className="mb-6">
-        <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Filter by Customer Cluster
-          </label>
-          <div className="flex flex-wrap gap-2">
+          <div className="bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-xl shadow-lg p-6 text-white transform hover:scale-105 transition-transform duration-200">
+            <div className="flex items-center justify-between mb-4">
+              <div className="bg-white/20 rounded-lg p-3">
+                <Users size={28} />
+              </div>
+              <span className="text-indigo-100 text-sm font-medium">VIP Campaigns</span>
+            </div>
+            <div className="text-4xl font-bold mb-1">{stats.byCluster['VIP Customers'] || 0}</div>
+            <div className="text-indigo-100 text-sm">Premium segment</div>
+          </div>
+
+          <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl shadow-lg p-6 text-white transform hover:scale-105 transition-transform duration-200">
+            <div className="flex items-center justify-between mb-4">
+              <div className="bg-white/20 rounded-lg p-3">
+                <Mail size={28} />
+              </div>
+              <span className="text-blue-100 text-sm font-medium">Email Campaigns</span>
+            </div>
+            <div className="text-4xl font-bold mb-1">{stats.activeCampaigns}</div>
+            <div className="text-blue-100 text-sm">Ready to send</div>
+          </div>
+
+          <div className="bg-gradient-to-br from-green-500 to-green-600 rounded-xl shadow-lg p-6 text-white transform hover:scale-105 transition-transform duration-200">
+            <div className="flex items-center justify-between mb-4">
+              <div className="bg-white/20 rounded-lg p-3">
+                <MessageCircle size={28} />
+              </div>
+              <span className="text-green-100 text-sm font-medium">WhatsApp Messages</span>
+            </div>
+            <div className="text-4xl font-bold mb-1">{stats.activeCampaigns}</div>
+            <div className="text-green-100 text-sm">Ready to send</div>
+          </div>
+        </div>
+
+        {/* Filter Section */}
+        <Card className="mb-8 shadow-lg hover:shadow-xl transition-shadow duration-200">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="bg-purple-100 rounded-lg p-2">
+              <Target className="text-purple-600" size={20} />
+            </div>
+            <label className="text-sm font-semibold text-gray-700">
+              Filter by Customer Cluster
+            </label>
+          </div>
+          <div className="flex flex-wrap gap-3">
             {clusters.map((cluster) => (
               <button
                 key={cluster}
                 onClick={() => setClusterFilter(cluster)}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                className={`px-5 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 transform hover:scale-105 ${
                   clusterFilter === cluster
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                    ? 'bg-gradient-to-r from-purple-600 to-purple-700 text-white shadow-lg'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                 }`}
               >
                 {cluster}
               </button>
             ))}
           </div>
-        </div>
-      </Card>
-
-      {loading ? (
-        <div className="flex items-center justify-center h-64">
-          <div className="text-gray-500">Loading campaign plan...</div>
-        </div>
-      ) : filteredCampaigns.length === 0 ? (
-        <Card>
-          <div className="text-center py-12">
-            <Sparkles className="mx-auto text-gray-400 mb-4" size={48} />
-            <p className="text-gray-600">No campaigns available</p>
-            <p className="text-sm text-gray-500 mt-2">
-              Campaigns are generated for overstocked products
-            </p>
-          </div>
         </Card>
-      ) : (
-        <div className="space-y-6">
-          {/* Campaign Plan Table - Collapsible */}
-          <Card>
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold text-gray-800">Campaign Plan</h3>
-              <button
-                onClick={() => setTableCollapsed(!tableCollapsed)}
-                className="flex items-center gap-2 text-sm text-gray-600 hover:text-gray-800"
-              >
-                {tableCollapsed ? (
-                  <>
-                    <ChevronDown size={18} />
-                    <span>Show Table</span>
-                  </>
-                ) : (
-                  <>
-                    <ChevronUp size={18} />
-                    <span>Hide Table</span>
-                  </>
-                )}
-              </button>
+
+        {filteredCampaigns.length === 0 ? (
+          <Card className="shadow-lg">
+            <div className="text-center py-16">
+              <Sparkles className="mx-auto text-gray-400 mb-4" size={64} />
+              <p className="text-xl font-semibold text-gray-600 mb-2">No campaigns available</p>
+              <p className="text-sm text-gray-500">
+                Campaigns are generated for overstocked products
+              </p>
             </div>
-            
-            {!tableCollapsed && (
-              <div className="overflow-x-auto">
-                <table className="min-w-full divide-y divide-gray-200">
-                  <thead className="bg-gray-50">
-                    <tr>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Stock Code
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Product Name
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Objective
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Cluster
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Discount
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Action
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="bg-white divide-y divide-gray-200">
-                    {filteredCampaigns.map((row, index) => {
+          </Card>
+        ) : (
+          <div className="space-y-8">
+            {/* Campaign Plan Table - Collapsible */}
+            <Card className="shadow-xl hover:shadow-2xl transition-shadow duration-200">
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center gap-3">
+                  <div className="bg-purple-100 rounded-lg p-2">
+                    <List className="text-purple-600" size={24} />
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-800">Campaign Plan</h3>
+                  <span className="ml-4 px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-medium">
+                    {filteredCampaigns.length} {filteredCampaigns.length === 1 ? 'campaign' : 'campaigns'}
+                  </span>
+                </div>
+                <button
+                  onClick={() => setTableCollapsed(!tableCollapsed)}
+                  className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+                >
+                  {tableCollapsed ? (
+                    <>
+                      <ChevronDown size={18} />
+                      <span>Show Table</span>
+                    </>
+                  ) : (
+                    <>
+                      <ChevronUp size={18} />
+                      <span>Hide Table</span>
+                    </>
+                  )}
+                </button>
+              </div>
+              
+              {!tableCollapsed && (
+                <div className="overflow-x-auto rounded-lg border border-gray-200">
+                  <table className="min-w-full divide-y divide-gray-200 bg-white">
+                    <thead className="bg-gradient-to-r from-gray-50 to-gray-100">
+                      <tr>
+                        <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
+                          Stock Code
+                        </th>
+                        <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
+                          Product Name
+                        </th>
+                        <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
+                          Objective
+                        </th>
+                        <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
+                          Cluster
+                        </th>
+                        <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
+                          Discount
+                        </th>
+                        <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
+                          Action
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className="bg-white divide-y divide-gray-200">
+                      {filteredCampaigns.map((row, index) => {
+                        const targetCluster = row.Target_Cluster || row.TargetCluster || row.Cluster || 'Regular';
+                        const campaignId = `${row.StockCode}_${targetCluster}`;
+                        const isGenerating = generating[campaignId];
+                        const generatedCampaign = generatedCampaigns[campaignId];
+                        const productName = row.ProductName || row.product_name || row.Description || row.StockCode;
+                        
+                        return (
+                          <tr 
+                            key={index} 
+                            className="hover:bg-gradient-to-r hover:from-purple-50 hover:to-pink-50 transition-colors duration-150"
+                          >
+                            <td className="px-6 py-4 whitespace-nowrap">
+                              <span className="text-sm font-semibold text-gray-900">{row.StockCode}</span>
+                            </td>
+                            <td className="px-6 py-4">
+                              <span className="text-sm text-gray-700">{productName}</span>
+                            </td>
+                            <td className="px-6 py-4">
+                              <span className="text-sm text-gray-700">{row.Objective}</span>
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap">
+                              <span className="text-sm text-gray-600">{targetCluster}</span>
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap">
+                              <span className="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm font-medium">
+                                {row.Discount || row.Discount_Percent}%
+                              </span>
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap">
+                              {!generatedCampaign ? (
+                                <Button
+                                  onClick={() => handleGenerateCampaign(row)}
+                                  disabled={isGenerating}
+                                  variant="primary"
+                                  className="text-xs px-4 py-2"
+                                >
+                                  {isGenerating ? (
+                                    <>
+                                      <Loader className="animate-spin" size={14} />
+                                      Activating...
+                                    </>
+                                  ) : (
+                                    <>
+                                      <Zap size={14} className="mr-1" />
+                                      Activate Campaign
+                                    </>
+                                  )}
+                                </Button>
+                              ) : (
+                                <span className="inline-flex items-center px-3 py-1 bg-green-100 text-green-800 rounded-full text-xs font-semibold">
+                                  ✓ Active
+                                </span>
+                              )}
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </Card>
+
+            {/* Generated Campaign Cards */}
+            {activeCampaigns > 0 && (
+              <div>
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg p-2">
+                    <Sparkles className="text-white" size={24} />
+                  </div>
+                  <h3 className="text-2xl font-bold text-gray-800">Active Campaigns</h3>
+                  <span className="px-4 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-semibold">
+                    {activeCampaigns} {activeCampaigns === 1 ? 'campaign' : 'campaigns'}
+                  </span>
+                </div>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  {filteredCampaigns
+                    .filter(row => {
+                      const targetCluster = row.Target_Cluster || row.TargetCluster || row.Cluster || 'Regular';
+                      return generatedCampaigns[`${row.StockCode}_${targetCluster}`];
+                    })
+                    .map((row, index) => {
                       const targetCluster = row.Target_Cluster || row.TargetCluster || row.Cluster || 'Regular';
                       const campaignId = `${row.StockCode}_${targetCluster}`;
-                      const isGenerating = generating[campaignId];
                       const generatedCampaign = generatedCampaigns[campaignId];
                       const productName = row.ProductName || row.product_name || row.Description || row.StockCode;
                       
+                      const campaignData = {
+                        id: campaignId,
+                        stockCode: row.StockCode,
+                        productName: productName,
+                        targetCluster: targetCluster,
+                        discount: row.Discount || row.Discount_Percent,
+                        stockSurplus: row.Stock_Surplus || (row.Current_Stock - row.Predicted_7d_Demand) || 0,
+                        emailSubject: generatedCampaign.email_subject || generatedCampaign.subject || '',
+                        emailBody: generatedCampaign.email_body || generatedCampaign.body || '',
+                        whatsappMessage: generatedCampaign.whatsapp_message || generatedCampaign.message || '',
+                        generatedAt: generatedCampaign.generatedAt || new Date().toISOString()
+                      };
+
                       return (
-                        <tr key={index} className="hover:bg-gray-50">
-                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                            {row.StockCode}
-                          </td>
-                          <td className="px-6 py-4 text-sm text-gray-700">
-                            {productName}
-                          </td>
-                          <td className="px-6 py-4 text-sm text-gray-700">
-                            {row.Objective}
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {targetCluster}
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {row.Discount || row.Discount_Percent}%
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm">
-                            {!generatedCampaign ? (
-                              <Button
-                                onClick={() => handleGenerateCampaign(row)}
-                                disabled={isGenerating}
-                                variant="primary"
-                                className="text-xs"
-                              >
-                                {isGenerating ? (
-                                  <>
-                                    <Loader className="animate-spin" size={14} />
-                                    Activating...
-                                  </>
-                                ) : (
-                                  'Activate Campaign'
-                                )}
-                              </Button>
-                            ) : (
-                              <span className="text-green-600 text-xs font-medium">Active ✓</span>
-                            )}
-                          </td>
-                        </tr>
+                        <CampaignCard key={campaignId} campaign={campaignData} />
                       );
                     })}
-                  </tbody>
-                </table>
+                </div>
               </div>
             )}
-          </Card>
-
-          {/* Generated Campaign Cards */}
-          {activeCampaigns > 0 && (
-            <div>
-              <h3 className="text-lg font-semibold text-gray-800 mb-4">Active Campaigns ({activeCampaigns})</h3>
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                {filteredCampaigns
-                  .filter(row => {
-                    const targetCluster = row.Target_Cluster || row.TargetCluster || row.Cluster || 'Regular';
-                    return generatedCampaigns[`${row.StockCode}_${targetCluster}`];
-                  })
-                  .map((row, index) => {
-                    const targetCluster = row.Target_Cluster || row.TargetCluster || row.Cluster || 'Regular';
-                    const campaignId = `${row.StockCode}_${targetCluster}`;
-                    const generatedCampaign = generatedCampaigns[campaignId];
-                    const productName = row.ProductName || row.product_name || row.Description || row.StockCode;
-                    
-                    // Format campaign data for CampaignCard component
-                    const campaignData = {
-                      id: campaignId,
-                      stockCode: row.StockCode,
-                      productName: productName,
-                      targetCluster: targetCluster,
-                      discount: row.Discount || row.Discount_Percent,
-                      stockSurplus: row.Stock_Surplus || (row.Current_Stock - row.Predicted_7d_Demand) || 0,
-                      emailSubject: generatedCampaign.email_subject || generatedCampaign.subject || '',
-                      emailBody: generatedCampaign.email_body || generatedCampaign.body || '',
-                      whatsappMessage: generatedCampaign.whatsapp_message || generatedCampaign.message || '',
-                      generatedAt: generatedCampaign.generatedAt || new Date().toISOString()
-                    };
-
-                    return (
-                      <CampaignCard key={campaignId} campaign={campaignData} />
-                    );
-                  })}
-              </div>
-            </div>
-          )}
-        </div>
-      )}
+          </div>
+        )}
+      </div>
     </div>
   );
 };
