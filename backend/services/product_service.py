@@ -1,9 +1,10 @@
 import pandas as pd
 import os
 
-# Get the root directory path
-root_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
-CLEANED_CSV_PATH = os.path.join(root_path, "data", "processed", "cleaned.csv")
+# Get the root directory path (Smart-Retail-360)
+# backend/services/product_service.py -> go up 2 levels to get root
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+CLEANED_CSV_PATH = os.path.join(BASE_DIR, "data", "processed", "cleaned.csv")
 
 # Cache for product names
 _product_names_cache = None

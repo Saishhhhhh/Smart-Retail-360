@@ -1,16 +1,10 @@
-import sys
 import os
-
-# Get the path of the root directory (Smart-Retail-360)
-root_path = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-sys.path.append(root_path)
-
 from fastapi import FastAPI
-from services.inventory_service import get_inventory
-from services.forecast_service import get_demand
-from services.strategy_service import get_campaign_plan
-from services.genai_service import generate_campaign
-from services.campaign_storage import get_all_generated_campaigns
+from backend.services.inventory_service import get_inventory
+from backend.services.forecast_service import get_demand
+from backend.services.strategy_service import get_campaign_plan
+from backend.services.genai_service import generate_campaign
+from backend.services.campaign_storage import get_all_generated_campaigns
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 

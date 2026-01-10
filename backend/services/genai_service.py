@@ -1,5 +1,5 @@
 from genai.campaign_engine import generate_campaign as genai_generate_campaign
-from services.campaign_storage import save_generated_campaign
+from backend.services.campaign_storage import save_generated_campaign
 
 def generate_campaign(payload):
     """
@@ -14,7 +14,6 @@ def generate_campaign(payload):
     }
     """
     # Transform payload to match what genai.campaign_engine expects
-    # The genai engine expects: StockCode, Objective, TargetCluster, Discount, Current_Stock, Predicted_7d_Demand, ProductDescription
     campaign_row = {
         "StockCode": payload.get("stock_code") or payload.get("StockCode"),
         "Objective": payload.get("objective") or payload.get("Objective") or "Clear Stock",
@@ -25,13 +24,11 @@ def generate_campaign(payload):
         "ProductDescription": payload.get("product_description") or payload.get("ProductDescription") or payload.get("Description") or payload.get("ProductName") or ""
     }
     
-    # Ensure required fields are present
     if not campaign_row["StockCode"]:
         raise ValueError("StockCode is required")
     
     result = genai_generate_campaign(campaign_row)
     
-    # Save generated campaign
     campaign_id = f"{campaign_row['StockCode']}_{campaign_row['TargetCluster']}"
     save_generated_campaign(campaign_id, result)
     

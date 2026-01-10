@@ -1,9 +1,10 @@
 import json
 import os
 
-# Get the root directory path
-root_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
-STORAGE_PATH = os.path.join(root_path, "data", "processed", "generated_campaigns.json")
+# Get the root directory path (Smart-Retail-360)
+# backend/services/campaign_storage.py -> go up 2 levels to get root
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+STORAGE_PATH = os.path.join(BASE_DIR, "data", "processed", "generated_campaigns.json")
 
 def load_generated_campaigns():
     """Load generated campaigns from JSON file"""

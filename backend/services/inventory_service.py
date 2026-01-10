@@ -1,12 +1,14 @@
 import pandas as pd
 import os
-from services.product_service import get_product_names_mapping
+from backend.services.product_service import get_product_names_mapping
 
 # Get the root directory path (Smart-Retail-360)
-root_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+# backend/services/inventory_service.py -> go up 2 levels to get root
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+
 # Try inventory_state.csv in inventory/ directory first, then data/processed/
-inventory_path_1 = os.path.join(root_path, "inventory", "inventory_state.csv")
-inventory_path_2 = os.path.join(root_path, "data", "processed", "inventory_state.csv")
+inventory_path_1 = os.path.join(BASE_DIR, "inventory", "inventory_state.csv")
+inventory_path_2 = os.path.join(BASE_DIR, "data", "processed", "inventory_state.csv")
 
 # Use the first path that exists
 if os.path.exists(inventory_path_1):

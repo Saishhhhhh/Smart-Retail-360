@@ -1,10 +1,11 @@
 import pandas as pd
 import os
-from services.product_service import get_product_names_mapping
+from backend.services.product_service import get_product_names_mapping
 
 # Get the root directory path (Smart-Retail-360)
-root_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
-PLAN_PATH = os.path.join(root_path, "data", "processed", "campaign_plan.csv")
+# backend/services/strategy_service.py -> go up 2 levels to get root
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+PLAN_PATH = os.path.join(BASE_DIR, "data", "processed", "campaign_plan.csv")
 
 def get_campaign_plan():
     if not os.path.exists(PLAN_PATH):
