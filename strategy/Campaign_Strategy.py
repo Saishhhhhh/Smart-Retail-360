@@ -53,12 +53,15 @@ df = inventory.merge(target_clusters, on="StockCode", how="left")
 df["OverstockRatio"] = df["Current_Stock"] / df["Predicted_7d_Demand"]
 df = inventory.merge(target_clusters, on="StockCode", how="left")
 df = df[df["Predicted_7d_Demand"] > 0]
+
 DEMAND_THRESHOLD = 30
+
 df["DemandLevel"] = df["Predicted_7d_Demand"].apply(
     lambda x: "High" if x >= DEMAND_THRESHOLD else "Low"
 )
 
 df["OverstockRatio"] = df["Current_Stock"] / df["Predicted_7d_Demand"]
+
 df["IsOverstock"] = df["OverstockRatio"] > 1.5
 def get_objective(row):
     if row["IsOverstock"] and row["DemandLevel"] == "Low":
@@ -71,6 +74,7 @@ def get_objective(row):
         return "Retention"
 
 df["Objective"] = df.apply(get_objective, axis=1)
+
 def choose_cluster(row):
     if row["Objective"] == "Clear Stock":
         return "At-Risk Customers"
@@ -80,7 +84,9 @@ def choose_cluster(row):
         return "VIP Customers"
     else:
         return "Regular Customers"
+    
 df["TargetCluster"] = df.apply(choose_cluster, axis=1)
+
 def get_discount(row):
     r = row["OverstockRatio"]
     obj = row["Objective"]
