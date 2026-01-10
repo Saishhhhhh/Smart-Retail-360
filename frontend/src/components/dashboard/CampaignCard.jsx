@@ -1,16 +1,19 @@
 import React, { useState } from 'react';
-import { Mail, Bell, Users, Tag, ChevronDown, ChevronUp } from 'lucide-react';
+import { Mail, MessageCircle, Users, Tag, ChevronDown, ChevronUp } from 'lucide-react';
 
 const CampaignCard = ({ campaign }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const clusterColors = {
-    VIP: 'bg-purple-100 text-purple-800 border-purple-200',
-    Regular: 'bg-blue-100 text-blue-800 border-blue-200',
-    'At-Risk': 'bg-orange-100 text-orange-800 border-orange-200',
-    New: 'bg-green-100 text-green-800 border-green-200',
-    Lost: 'bg-red-100 text-red-800 border-red-200'
+    'VIP Customers': 'bg-purple-100 text-purple-800 border-purple-200',
+    'Regular': 'bg-blue-100 text-blue-800 border-blue-200',
+    'Regular Customers': 'bg-blue-100 text-blue-800 border-blue-200',
+    'At-Risk Customers': 'bg-orange-100 text-orange-800 border-orange-200',
+    'New Customers': 'bg-green-100 text-green-800 border-green-200',
+    'Lost Customers': 'bg-red-100 text-red-800 border-red-200'
   };
+
+  const clusterName = campaign.targetCluster || 'Regular';
 
   return (
     <div className="bg-white rounded-lg shadow-md border border-gray-200 p-6 hover:shadow-lg transition-shadow">
@@ -20,9 +23,9 @@ const CampaignCard = ({ campaign }) => {
             {campaign.productName}
           </h3>
           <div className="flex flex-wrap gap-2 mb-3">
-            <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium border ${clusterColors[campaign.targetCluster] || clusterColors.Regular}`}>
+            <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium border ${clusterColors[clusterName] || clusterColors.Regular}`}>
               <Users size={12} className="mr-1" />
-              {campaign.targetCluster}
+              {clusterName}
             </span>
             <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 border border-yellow-200">
               <Tag size={12} className="mr-1" />
@@ -59,14 +62,14 @@ const CampaignCard = ({ campaign }) => {
 
             <div className="bg-gray-50 rounded-lg p-3">
               <div className="flex items-center gap-2 mb-2">
-                <Bell size={16} color="#4b5563" />
-                <span className="text-sm font-medium text-gray-700">Push Notification</span>
+                <MessageCircle size={16} color="#4b5563" />
+                <span className="text-sm font-medium text-gray-700">WhatsApp Message</span>
               </div>
-              <p className="text-sm text-gray-800">{campaign.pushNotification}</p>
+              <p className="text-sm text-gray-800">{campaign.whatsappMessage || campaign.pushNotification}</p>
             </div>
 
             <div className="text-xs text-gray-500 pt-2 border-t border-gray-200">
-              Stock Code: {campaign.stockCode} | Surplus: {campaign.stockSurplus.toFixed(2)}
+              Stock Code: {campaign.stockCode} | Surplus: {campaign.stockSurplus ? campaign.stockSurplus.toFixed(2) : 'N/A'}
             </div>
           </>
         )}

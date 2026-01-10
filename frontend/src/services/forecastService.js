@@ -1,53 +1,80 @@
-// Mock Forecast Service
-// This will be replaced with actual API calls later
+import axios from 'axios';
+import { API_BASE_URL, API_ENDPOINTS } from '../config/api';
 
-export const getForecast = async (stockCode = '10080') => {
-  // Simulate API delay
-  await new Promise(resolve => setTimeout(resolve, 300));
+const api = axios.create({
+  baseURL: API_BASE_URL,
+});
 
-  // Generate mock 7-day forecast data
-  const today = new Date();
-  const dates = [];
-  const forecast = [];
-  const historical = [];
-
-  for (let i = 6; i >= 0; i--) {
-    const date = new Date(today);
-    date.setDate(date.getDate() - i);
-    dates.push(date.toISOString().split('T')[0]);
-    historical.push(Math.random() * 10 + 2);
+export const getDemand = async () => {
+  try {
+    const response = await api.get(API_ENDPOINTS.DEMAND);
+    // Backend returns predicted_7d_demand.csv data
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching demand forecast:', error);
+    throw error;
   }
+};
 
-  for (let i = 1; i <= 7; i++) {
-    const date = new Date(today);
-    date.setDate(date.getDate() + i);
-    forecast.push(Math.random() * 15 + 3);
+export const getForecast = async (stockCode = null) => {
+  try {
+    const demandData = await getDemand();
+    // Handle both array and object responses
+    const demandArray = Array.isArray(demandData) ? demandData : demandData.data || [];
+    
+    if (stockCode) {
+      // Filter by stock code if provided
+      const productData = demandArray.find(item => item.StockCode === stockCode);
+      if (!productData) {
+        throw new Error(`No forecast data found for stock code: ${stockCode}`);
+      }
+      
+      // Format data for chart display
+      const today = new Date();
+      const dates = [];
+      const forecast = [];
+      
+      // Generate 7-day forecast dates
+      for (let i = 1; i <= 7; i++) {
+        const date = new Date(today);
+        date.setDate(date.getDate() + i);
+        dates.push(date.toISOString().split('T')[0]);
+        // Use predicted demand divided by 7 for daily forecast
+        forecast.push(productData.Predicted_7d_Demand / 7);
+      }
+      
+      return {
+        stockCode: productData.StockCode,
+        productName: productData.ProductName || productData.StockCode,
+        forecast: dates.map((date, idx) => ({
+          date,
+          value: forecast[idx]
+        })),
+        historical: [] // Historical data would come from backend if available
+      };
+    }
+    
+    return demandArray;
+  } catch (error) {
+    console.error('Error fetching forecast:', error);
+    throw error;
   }
-
-  return {
-    stockCode,
-    productName: 'WHITE METAL LANTERN',
-    historical: dates.map((date, idx) => ({
-      date,
-      value: historical[idx]
-    })),
-    forecast: dates.slice(-7).map((date, idx) => ({
-      date,
-      value: forecast[idx]
-    }))
-  };
 };
 
 export const getAvailableStockCodes = async () => {
-  await new Promise(resolve => setTimeout(resolve, 100));
-  
-  return [
-    { code: '10080', name: 'WHITE METAL LANTERN' },
-    { code: '10120', name: 'RED WOOLLY HOTTIE WHITE HEART' },
-    { code: '10125', name: 'MINI PAINT SET VINTAGE' },
-    { code: '10133', name: 'COFFEE MUG CAT + HAVEN DESIGN' },
-    { code: '10135', name: 'BLUE COAT RACK PARIS FASHION' },
-    { code: '15036', name: 'MINI PAINT SET VINTAGE' },
-    { code: '15039', name: 'ALARM CLOCK BAKELIKE PINK' }
-  ];
+  try {
+    const demandData = await getDemand();
+    const demandArray = Array.isArray(demandData) ? demandData : demandData.data || [];
+    
+    // Extract unique stock codes
+    const stockCodes = demandArray.map(item => ({
+      code: item.StockCode,
+      name: item.ProductName || item.Description || item.StockCode
+    }));
+    
+    return stockCodes;
+  } catch (error) {
+    console.error('Error fetching stock codes:', error);
+    throw error;
+  }
 };

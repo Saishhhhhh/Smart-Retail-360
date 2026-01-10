@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Package, Sparkles, PlayCircle } from 'lucide-react';
+import { LayoutDashboard, Package, Sparkles } from 'lucide-react';
 
 const Sidebar = () => {
   const location = useLocation();
@@ -8,8 +8,7 @@ const Sidebar = () => {
   const menuItems = [
     { path: '/', label: 'Dashboard', icon: LayoutDashboard },
     { path: '/inventory', label: 'Inventory', icon: Package },
-    { path: '/campaigns', label: 'AI Campaigns', icon: Sparkles },
-    { path: '/simulation', label: 'Simulation', icon: PlayCircle }
+    { path: '/campaigns', label: 'AI Campaigns', icon: Sparkles }
   ];
 
   return (

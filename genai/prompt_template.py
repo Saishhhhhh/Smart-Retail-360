@@ -24,6 +24,8 @@ You are a senior retail marketing specialist for SmartRetail 360.
 
 Your job is to write high-converting marketing messages based on real inventory and customer data.
 
+Use Customer Name as 'Arjun Pathak'
+
 CAMPAIGN OBJECTIVE:
 {objective}
 
@@ -34,7 +36,8 @@ STYLE GUIDE:
 {style_description}
 
 PRODUCT:
-{product_name}
+Product Code: {product_name}
+Product Description: {product_description}
 
 INVENTORY SITUATION:
 We have {stock_surplus} excess units in stock.
@@ -44,6 +47,7 @@ Give the customer a {discount}% discount.
 
 TASK:
 Write persuasive, on-brand marketing content that matches the objective and customer segment.
+Use the product description to make the message more specific and compelling.
 
 {format_instructions}
 """,
@@ -52,6 +56,7 @@ Write persuasive, on-brand marketing content that matches the objective and cust
             "customer_segment",
             "style_description",
             "product_name",
+            "product_description",
             "stock_surplus",
             "discount"
         ],

@@ -1,10 +1,11 @@
 import os
+from dotenv import load_dotenv
 from pydantic import BaseModel, Field
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.output_parsers import JsonOutputParser
-from prompt_templates import create_campaign_prompt, get_style_description
+from genai.prompt_template import create_campaign_prompt, get_style_description
 
-
+load_dotenv()
 # -------------------------------
 # 1. Response Schema
 # -------------------------------
@@ -27,9 +28,7 @@ llm = ChatGoogleGenerativeAI(
 chain = prompt | llm | parser
 
 
-# -------------------------------
 # 2. Main function called by FastAPI
-# -------------------------------
 def generate_campaign(campaign_row: dict):
     """
     campaign_row is one row from campaign_plan.csv
@@ -42,11 +41,14 @@ def generate_campaign(campaign_row: dict):
 
     style = get_style_description(campaign_row["TargetCluster"])
 
+    product_description = campaign_row.get("ProductDescription") or campaign_row.get("Description") or campaign_row.get("ProductName") or str(campaign_row["StockCode"])
+
     inputs = {
         "objective": campaign_row["Objective"],
         "customer_segment": campaign_row["TargetCluster"],
         "style_description": style,
         "product_name": str(campaign_row["StockCode"]),
+        "product_description": product_description,
         "stock_surplus": stock_surplus,
         "discount": int(campaign_row["Discount"])
     }
@@ -57,5 +59,6 @@ def generate_campaign(campaign_row: dict):
     result["Objective"] = campaign_row["Objective"]
     result["TargetCluster"] = campaign_row["TargetCluster"]
     result["Discount"] = campaign_row["Discount"]
+    result["ProductDescription"] = product_description
 
     return result
