@@ -9,6 +9,7 @@
 ![Gemini](https://img.shields.io/badge/Gemini-Generative%20AI-purple.svg)
 ![FastAPI](https://img.shields.io/badge/FastAPI-Backend-teal.svg)
 ![React](https://img.shields.io/badge/React-Frontend-blue.svg)
+![MongoDB](https://img.shields.io/badge/MongoDB-Database-blue.svg)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 **SmartRetail 360** is an AI-powered retail intelligence system that transforms raw transaction data into  
@@ -55,10 +56,12 @@ Strategy Engine
    ↓
 GenAI (Gemini)
    ↓
-FastAPI
+FastAPI + MongoDB
    ↓
 React Dashboard
 ```
+
+**Data Persistence:** Generated campaigns are stored in **MongoDB Atlas** for cloud-based persistence, enabling serverless deployment on platforms like Vercel.
 
 ---
 
@@ -98,7 +101,8 @@ SMART-RETAIL-360/
 │       ├── segmentation_service.py
 │       ├── inventory_service.py
 │       ├── strategy_service.py
-│       └── genai_service.py
+│       ├── genai_service.py
+│       └── campaign_storage.py 
 │
 ├── frontend/
 │   └── src/
@@ -247,16 +251,29 @@ This ensures the text is:
 
 FastAPI connects everything.
 
-| Endpoint             | What it does                 |
-| -------------------- | ---------------------------- |
-| `/inventory`         | Returns current stock        |
-| `/demand`            | Returns demand forecast      |
-| `/campaign-plan`     | Returns AI strategy          |
-| `/generate-campaign` | Calls Gemini for one product |
+| Endpoint                | What it does                        |
+| ----------------------- | ----------------------------------- |
+| `/inventory`            | Returns current stock               |
+| `/demand`               | Returns demand forecast             |
+| `/campaign-plan`        | Returns AI strategy                 |
+| `/generate-campaign`    | Calls Gemini for one product        |
+| `/generated-campaigns`  | Returns all saved campaigns from DB |
 
 React never touches CSV files directly.
 
 FastAPI acts as the **brain API**.
+
+### 🗄️ Database Integration
+
+Generated campaigns are persisted in **MongoDB Atlas** using the `campaign_storage.py` service. This enables:
+- Cloud-based data persistence
+- Serverless deployment compatibility (Vercel, Railway, etc.)
+- Scalable campaign management
+
+**Environment Variable Required:**
+```
+MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/
+```
 
 ---
 
@@ -291,7 +308,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📺 Demo Video
 
-Watch the full walkthrough and see DevNotes-AI in action:
+Watch the full walkthrough and see Smart Retail 360 in action:
 
 **[🎬 Watch Demo Video](https://youtu.be/2oQYH_88d4o)**
 

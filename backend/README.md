@@ -34,13 +34,14 @@ React Dashboard
 ↓
 FastAPI
 ↓
-┌────────────────────────────┐
-│   Strategy + ML Services   │
-├────────────────────────────┤
-│  Inventory  Forecast  GenAI│
-└────────────────────────────┘
+┌────────────────────────────────┐
+│   Strategy + ML Services       │
+├────────────────────────────────┤
+│  Inventory  Forecast  GenAI    │
+│  Campaign Storage (MongoDB)    │
+└────────────────────────────────┘
 ↓
-CSV state + Models
+CSV state + Models + MongoDB
 
 ```
 
@@ -55,12 +56,13 @@ FastAPI acts as a **control plane** that orchestrates everything.
 backend/
 ├── main.py
 └── services/
-├── inventory_service.py
-├── forecast_service.py
-├── segmentation_service.py
-├── strategy_service.py
-└── genai_service.py
-└── product_service.py
+    ├── inventory_service.py
+    ├── forecast_service.py
+    ├── segmentation_service.py
+    ├── strategy_service.py
+    ├── genai_service.py
+    ├── product_service.py
+    └── campaign_storage.py  # MongoDB integration
 
 ```
 
@@ -72,10 +74,11 @@ Each service represents one **business capability**.
 
 | Endpoint | Description |
 |--------|-------------|
-`GET /inventory` | Returns current inventory state |
-`GET /demand` | Returns demand forecast |
-`GET /campaign-plan` | Returns AI strategy recommendations |
-`POST /generate-campaign` | Uses Gemini to generate marketing copy |
+| `GET /inventory` | Returns current inventory state |
+| `GET /demand` | Returns demand forecast |
+| `GET /campaign-plan` | Returns AI strategy recommendations |
+| `POST /generate-campaign` | Uses Gemini to generate marketing copy |
+| `GET /generated-campaigns` | Returns all saved campaigns from MongoDB |
 
 These endpoints allow the React app to function as a **live retail dashboard**.
 
@@ -143,5 +146,56 @@ This service:
   - WhatsApp message
 
 Gemini does not decide strategy — it only communicates it.
+
+---
+
+### `campaign_storage.py` (NEW)
+This service handles **persistent storage** of generated campaigns using **MongoDB Atlas**.
+
+**Why MongoDB?**
+- Enables serverless deployment (Vercel, Railway)
+- Cloud-based persistence (no local file dependency)
+- Scalable campaign management
+
+**Functions:**
+- `save_generated_campaign()` - Saves/updates campaigns in MongoDB
+- `get_all_generated_campaigns()` - Retrieves all campaigns from database
+- `get_database()` - Establishes MongoDB connection
+
+**Environment Variable Required:**
+```bash
+MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/
+```
+
+---
+
+## 🚀 Deployment
+
+### Local Development
+```bash
+uvicorn backend.main:app --reload
+```
+
+### Vercel Deployment
+The backend is configured for serverless deployment on Vercel:
+
+1. **Install Vercel CLI:**
+   ```bash
+   npm i -g vercel
+   ```
+
+2. **Deploy:**
+   ```bash
+   vercel
+   ```
+
+3. **Set Environment Variables in Vercel Dashboard:**
+   - `MONGODB_URI` - Your MongoDB connection string
+   - `CORS_ORIGINS` - Your frontend URL
+   - `GOOGLE_API_KEY` - For Gemini AI
+
+**Configuration Files:**
+- `vercel.json` - Vercel deployment configuration
+- `api/index.py` - Serverless entry point
 
 ---

@@ -83,16 +83,16 @@ const Campaigns = () => {
     }
   };
 
-  const filteredCampaigns = clusterFilter === 'ALL' 
-    ? campaignPlan 
+  const filteredCampaigns = clusterFilter === 'ALL'
+    ? campaignPlan
     : campaignPlan.filter(campaign => {
-        const cluster = campaign.Target_Cluster || campaign.TargetCluster || campaign.Cluster || '';
-        return cluster === clusterFilter || cluster.includes(clusterFilter);
-      });
+      const cluster = campaign.Target_Cluster || campaign.TargetCluster || campaign.Cluster || '';
+      return cluster === clusterFilter || cluster.includes(clusterFilter);
+    });
 
   const clusters = ['ALL', 'VIP Customers', 'Regular', 'At-Risk Customers', 'New Customers', 'Lost'];
   const activeCampaigns = Object.keys(generatedCampaigns).length;
-  
+
   const stats = {
     total: campaignPlan.length,
     activeCampaigns: activeCampaigns,
@@ -203,11 +203,10 @@ const Campaigns = () => {
               <button
                 key={cluster}
                 onClick={() => setClusterFilter(cluster)}
-                className={`px-3 sm:px-5 py-2 sm:py-2.5 rounded-lg text-xs sm:text-sm font-semibold transition-all duration-200 transform hover:scale-105 ${
-                  clusterFilter === cluster
+                className={`px-3 sm:px-5 py-2 sm:py-2.5 rounded-lg text-xs sm:text-sm font-semibold transition-all duration-200 transform hover:scale-105 ${clusterFilter === cluster
                     ? 'bg-gradient-to-r from-purple-600 to-purple-700 text-white shadow-lg'
                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                }`}
+                  }`}
               >
                 {cluster}
               </button>
@@ -232,7 +231,7 @@ const Campaigns = () => {
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
                 <div className="flex flex-wrap items-center gap-2 sm:gap-3">
                   <div className="bg-purple-100 rounded-lg p-2">
-                    <List className="text-purple-600" size={20} className="sm:w-6 sm:h-6" />
+                    <List className="text-purple-600 sm:w-6 sm:h-6" size={20} />
                   </div>
                   <h3 className="text-lg sm:text-xl font-bold text-gray-800">Campaign Plan</h3>
                   <span className="px-2 sm:px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-xs sm:text-sm font-medium">
@@ -256,7 +255,7 @@ const Campaigns = () => {
                   )}
                 </button>
               </div>
-              
+
               {!tableCollapsed && (
                 <div className="overflow-x-auto rounded-lg border border-gray-200 -mx-4 sm:mx-0">
                   <table className="min-w-full divide-y divide-gray-200 bg-white">
@@ -289,10 +288,10 @@ const Campaigns = () => {
                         const isGenerating = generating[campaignId];
                         const generatedCampaign = generatedCampaigns[campaignId];
                         const productName = row.ProductName || row.product_name || row.Description || row.StockCode;
-                        
+
                         return (
-                          <tr 
-                            key={index} 
+                          <tr
+                            key={index}
                             className="hover:bg-gradient-to-r hover:from-purple-50 hover:to-pink-50 transition-colors duration-150"
                           >
                             <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap">
@@ -370,7 +369,7 @@ const Campaigns = () => {
                       const campaignId = `${row.StockCode}_${targetCluster}`;
                       const generatedCampaign = generatedCampaigns[campaignId];
                       const productName = row.ProductName || row.product_name || row.Description || row.StockCode;
-                      
+
                       const campaignData = {
                         id: campaignId,
                         stockCode: row.StockCode,
