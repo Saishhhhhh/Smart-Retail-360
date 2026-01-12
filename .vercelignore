@@ -1,0 +1,23 @@
+# Exclude large data files from deployment
+data/raw/
+notebooks/
+frontend/
+
+# Keep only essential processed data
+# data/processed/ will be included (needed for API)
+
+# Exclude development files
+.git/
+.vscode/
+.idea/
+*.pyc
+__pycache__/
+.env
+.env.local
+
+# Exclude documentation
+*.md
+LICENSE
+
+# Exclude frontend
+node_modules/
