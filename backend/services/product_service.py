@@ -1,33 +1,22 @@
-import pandas as pd
 import os
+import json
 
 # Get the root directory path (Smart-Retail-360)
 # backend/services/product_service.py -> go up 2 levels to get root
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
-CLEANED_CSV_PATH = os.path.join(BASE_DIR, "data", "processed", "cleaned.csv")
-
-# Cache for product names
-_product_names_cache = None
+PRODUCTS_JSON_PATH = os.path.join(BASE_DIR, "data", "processed", "products.json")
 
 def get_product_names_mapping():
-    """Get a mapping of StockCode to ProductName from cleaned.csv"""
-    global _product_names_cache
-    
-    if _product_names_cache is not None:
-        return _product_names_cache
-    
-    if not os.path.exists(CLEANED_CSV_PATH):
+    """Get a mapping of StockCode to ProductName from products.json"""
+    if not os.path.exists(PRODUCTS_JSON_PATH):
+        print(f"Warning: Products file not found at {PRODUCTS_JSON_PATH}")
         return {}
     
     try:
-        # Read only StockCode and Description columns for efficiency
-        df = pd.read_csv(CLEANED_CSV_PATH, usecols=['StockCode', 'Description'])
-        # Get the most common description for each StockCode (in case there are variations)
-        product_names = df.groupby('StockCode')['Description'].first().to_dict()
-        _product_names_cache = product_names
-        return product_names
+        with open(PRODUCTS_JSON_PATH, 'r', encoding='utf-8') as f:
+            return json.load(f)
     except Exception as e:
-        print(f"Error loading product names: {e}")
+        print(f"Error reading products file: {e}")
         return {}
 
 def get_product_name(stock_code):

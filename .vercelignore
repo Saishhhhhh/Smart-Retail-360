@@ -5,6 +5,7 @@ frontend/
 
 # Keep only essential processed data
 # data/processed/ will be included (needed for API)
+data/processed/cleaned.csv
 
 # Exclude development files
 .git/
