@@ -62,7 +62,7 @@ backend/
     ├── strategy_service.py
     ├── genai_service.py
     ├── product_service.py
-    └── campaign_storage.py  # MongoDB integration
+    └── campaign_storage.py  
 
 ```
 
